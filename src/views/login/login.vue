@@ -8,8 +8,12 @@
           <el-input v-model="loginForm.phone" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:235px;margin-right:10px"></el-input>
-           <el-button>发送验证码</el-button>
+          <el-input
+            v-model="loginForm.code"
+            placeholder="请输入验证码"
+            style="width:235px;margin-right:10px"
+          ></el-input>
+          <el-button>发送验证码</el-button>
         </el-form-item>
         <el-form-item>
           <el-checkbox label="我已阅读并同意用户协议和隐私条款" :value="true"></el-checkbox>
@@ -43,6 +47,7 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
+  // 1111111111
   // 饿了么组件 el-card 组件名称  解析成HTML  后组件根元素上默认生成一个类和组件的名称一致
   .el-card {
     width: 400px;
