@@ -19,7 +19,7 @@
           <el-checkbox label="我已阅读并同意用户协议和隐私条款" :value="true"></el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%;" @click="submitForm('loginForm')">立即登录</el-button>
+          <el-button type="primary" style="width:100%;" @click="login('loginForm')">立即登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import local from '@/utils/local'
 export default {
   data () {
     var checkPhone = (rule, value, callback) => {
@@ -62,13 +63,15 @@ export default {
     }
   },
   methods: {
-    submitForm (formName) {
+    login (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$axios
             .post('authorizations', this.loginForm)
             .then(res => {
               console.log(res)
+              // 将服务器返回的token放入本地存储防止token失效过快
+              local.setUser(res.data.data)
               this.$router.push('/')
             })
             .catch(err => {
@@ -107,7 +110,6 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  // 1111111111
   // 饿了么组件 el-card 组件名称  解析成HTML  后组件根元素上默认生成一个类和组件的名称一致
   .el-card {
     width: 400px;

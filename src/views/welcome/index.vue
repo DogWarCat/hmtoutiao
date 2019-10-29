@@ -5,7 +5,21 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    article () {
+      this.$axios
+        .get('articles')
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(() => console.log('error'))
+    }
+  },
+  created () {
+    this.article()
+  }
+}
 </script>
 
 <style>
