@@ -4,7 +4,9 @@ import login from '@/views/login'
 import home from '@/views/home'
 import welcome from '@/views/welcome'
 import NotFound from '@/views/404'
+import article from '@/views/article'
 import local from '@/utils/local'
+import slotTest from '@/components/vue-slot-page'
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [{
@@ -12,12 +14,21 @@ const router = new VueRouter({
     component: login
   },
   {
+    path: '/slotTest',
+    component: slotTest
+  },
+  {
     path: '/',
     component: home,
     children: [{
       path: '',
       component: welcome
-    }]
+    },
+    {
+      path: '/article',
+      component: article
+    }
+    ]
   },
   // 匹配  不符合路由规则的路径
   {

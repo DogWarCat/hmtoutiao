@@ -6,6 +6,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 // @是webpack指定的路径别名  @===‘/src’   绝对路径
 import router from '@/router'
 import axios from '@/api'
+
+// import MyBread from '@/components/my-bread'
+// Vue.component('my-bread', MyBread)
+import plugin from '@/components'
+Vue.use(plugin)
+
 Vue.prototype.$axios = axios
 Vue.use(ElementUI)
 Vue.config.productionTip = false

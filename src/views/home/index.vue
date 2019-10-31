@@ -5,7 +5,7 @@
       <div :class="{logo:isCollapse,logoMin:!isCollapse}"></div>
       <!-- 导航菜单 -->
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#002033"
         text-color="#fff"
@@ -48,15 +48,22 @@
       <el-header>
         <i class="el-icon-s-fold logoButton" @click="isCollapse=!isCollapse"></i>
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown class="dropdown">
+        <!-- 下拉菜单组件 -->
+        <el-dropdown class="dropdown" @command="handleClick">
           <span class="el-dropdown-link">
-            <img src="../../assets/avatar.jpg" alt class="userPhoto" />
-            <span class="userName">用户名称</span>
+            <img :src="userInfo.photo" alt class="userPhoto" />
+            <span class="userName">{{userInfo.name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <!-- 事件根本没有触发  click事件
+                给组件绑定事件，如果组件不支持，事件不会触发。
+                把事件绑定在 组件解析后的原生dom上
+            事件修饰符：prevent once stop  native意思是把事件绑定在原生dom上-->
+            <!-- <el-dropdown-item icon="el-icon-setting" @click.native="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="logOut">退出登录</el-dropdown-item>-->
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logOut">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -68,10 +75,29 @@
 </template>
 
 <script>
+import local from '@/utils/local'
+import router from '@/router'
 export default {
   data () {
     return {
-      isCollapse: true
+      isCollapse: true,
+      userInfo: { name: '', photo: '' }
+    }
+  },
+  created () {
+    this.userInfo = local.getUser() || {}
+    console.log(this.userInfo)
+  },
+  methods: {
+    setting () {
+      router.push('/setting')
+    },
+    logOut () {
+      local.delUser()
+      router.push('/login')
+    },
+    handleClick (command) {
+      this[command]()
     }
   }
 }

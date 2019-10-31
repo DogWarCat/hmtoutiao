@@ -1,5 +1,8 @@
 <template>
   <div class="container-welcome">
+    <el-card class="box-card">
+      <my-bread>首页</my-bread>
+    </el-card>
     <img src="../../assets/welcome.jpg" class="img-Welcome" />
   </div>
 </template>

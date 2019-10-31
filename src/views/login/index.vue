@@ -64,34 +64,59 @@ export default {
   },
   methods: {
     login (formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(async valid => {
         if (valid) {
-          this.$axios
-            .post('authorizations', this.loginForm)
-            .then(res => {
-              console.log(res)
-              // 将服务器返回的token放入本地存储防止token失效过快
-              local.setUser(res.data.data)
-              this.$router.push('/')
-            })
-            .catch(err => {
-              console.log(err)
-              // 1. 201 OK
-              // 2. 400 请求参数错误
-              // 包括：参数缺失、手机号格式不正确、验证码失效等
-              // 3.403 用户非实名认证用户，无权限登录
-              // 4. 507 服务器数据库异常
-              let httpCode = parseInt(err.message.substr(-3))
-              if (httpCode === 403) {
-                this.$message.error('用户非实名认证用户，无权限登录')
-              } else if (httpCode === 400) {
-                this.$message.error(
-                  '请求参数错误包括：参数缺失、手机号格式不正确、验证码失效等'
-                )
-              } else if (httpCode === 507) {
-                this.$message.error('服务器数据库异常')
-              }
-            })
+          // this.$axios
+          //   .post('authorizations', this.loginForm)
+          //   .then(res => {
+          //     console.log(res)
+          //     // 将服务器返回的token放入本地存储防止token失效过快
+          //     local.setUser(res.data.data)
+          //     this.$router.push('/')
+          //   })
+          //   .catch(err => {
+          //     console.log(err)
+          //     // 1. 201 OK
+          //     // 2. 400 请求参数错误
+          //     // 包括：参数缺失、手机号格式不正确、验证码失效等
+          //     // 3.403 用户非实名认证用户，无权限登录
+          //     // 4. 507 服务器数据库异常
+          //     let httpCode = parseInt(err.message.substr(-3))
+          //     if (httpCode === 403) {
+          //       this.$message.error('用户非实名认证用户，无权限登录')
+          //     } else if (httpCode === 400) {
+          //       this.$message.error(
+          //         '请求参数错误包括：参数缺失、手机号格式不正确、验证码失效等'
+          //       )
+          //     } else if (httpCode === 507) {
+          //       this.$message.error('服务器数据库异常')
+          //     }
+          //   })
+          try {
+            const {
+              data: { data }
+            } = await this.$axios.post('authorizations', this.loginForm)
+            // 将服务器返回的token放入本地存储防止token失效过快
+            local.setUser(data)
+            this.$router.push('/')
+          } catch (err) {
+            console.log('err:' + err)
+            // 1. 201 OK
+            // 2. 400 请求参数错误
+            // 包括：参数缺失、手机号格式不正确、验证码失效等
+            // 3.403 用户非实名认证用户，无权限登录
+            // 4. 507 服务器数据库异常
+            let httpCode = parseInt(err.message.substr(-3))
+            if (httpCode === 403) {
+              this.$message.error('用户非实名认证用户，无权限登录')
+            } else if (httpCode === 400) {
+              this.$message.error(
+                '请求参数错误包括：参数缺失、手机号格式不正确、验证码失效等'
+              )
+            } else if (httpCode === 507) {
+              this.$message.error('服务器数据库异常')
+            }
+          }
         } else {
           this.$message.error('手机号或者验证码错误！')
           return false

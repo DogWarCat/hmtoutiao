@@ -23,7 +23,7 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(response => response
   , error => {
-    console.log(error.response)
+    // console.log(error.response)
     if (error.response.status === 401) {
       return router.push('/login')
     }
