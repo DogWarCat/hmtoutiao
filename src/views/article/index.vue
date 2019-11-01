@@ -68,8 +68,20 @@
         <el-table-column label="发布时间" prop="pubdate"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle plain></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle plain @click="scope.row.id"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-edit"
+              circle
+              plain
+              @click="editArticle (scope.row.id)"
+            ></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              plain
+              @click="delArticle (scope.row.id)"
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -132,7 +144,7 @@ export default {
         data: { data }
       } = await this.$axios.get('channels')
       this.channelOptions = data.channels
-      console.log(this.channelOptions)
+      // console.log(this.channelOptions)
     },
     getDate (dateArr) {
       if (dateArr) {
@@ -143,7 +155,7 @@ export default {
         this.reqParams.end_pubdate = null
       }
     },
-    async selArticle () {
+    async selArticle (id) {
       // console.log(this.reqParams)
       if (this.reqParams.channel_id === '') this.reqParams.channel_id = null
       this.reqParams.page = 1
@@ -151,8 +163,12 @@ export default {
     },
     async delArticle (id) {
       console.log(id)
-      this.$axios.delete(`articles/${id}`)
+      await this.$axios.delete(`articles/${id}`)
       this.$message.success('删除成功')
+      this.getArticle()
+    },
+    async editArticle (id) {
+      this.$router.push({ path: '/publish', query: { id } })
     }
   },
   created () {

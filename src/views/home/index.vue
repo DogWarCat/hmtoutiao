@@ -86,7 +86,7 @@ export default {
   },
   created () {
     this.userInfo = local.getUser() || {}
-    console.log(this.userInfo)
+    // console.log(this.userInfo)
   },
   methods: {
     setting () {

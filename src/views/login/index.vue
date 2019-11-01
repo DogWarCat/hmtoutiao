@@ -43,7 +43,7 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '13911111111',
+        mobile: '14790530268',
         code: '246810'
       },
       rules: {
@@ -100,7 +100,7 @@ export default {
             local.setUser(data)
             this.$router.push('/')
           } catch (err) {
-            console.log('err:' + err)
+            // console.log('err:' + err)
             // 1. 201 OK
             // 2. 400 请求参数错误
             // 包括：参数缺失、手机号格式不正确、验证码失效等
