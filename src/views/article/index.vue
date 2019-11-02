@@ -16,14 +16,17 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
+          <!--v-model做了两件事：  :value="reqParams.channel_id"  @input="把改变的数据设置给reqParams.channel_id" -->
+          <!-- <my-channel :value="reqParams.channel_id" @input="value=>reqParams.channel_id=value"></my-channel> -->
+          <my-channel v-model="reqParams.channel_id"></my-channel>
+          <!-- <el-select v-model="reqParams.channel_id" placeholder="请选择" clearable>
             <el-option
               v-for="item in channelOptions"
               :key="item.id"
               :label="item.name"
               :value="item.id"
             ></el-option>
-          </el-select>
+          </el-select>-->
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -114,12 +117,12 @@ export default {
         // 当前页数
         page: 1
       },
-      channelOptions: [
-        {
-          id: '',
-          name: ''
-        }
-      ],
+      // channelOptions: [
+      //   {
+      //     id: '',
+      //     name: ''
+      //   }
+      // ],
       dateArr: [],
       articles: [],
       // 总页数
@@ -139,13 +142,13 @@ export default {
       this.reqParams.page = newPage
       this.getArticle()
     },
-    async getChannelOption () {
-      const {
-        data: { data }
-      } = await this.$axios.get('channels')
-      this.channelOptions = data.channels
-      // console.log(this.channelOptions)
-    },
+    // async getChannelOption () {
+    //   const {
+    //     data: { data }
+    //   } = await this.$axios.get('channels')
+    //   this.channelOptions = data.channels
+    //   // console.log(this.channelOptions)
+    // },
     getDate (dateArr) {
       if (dateArr) {
         this.reqParams.begin_pubdate = dateArr[0]
@@ -173,7 +176,6 @@ export default {
   },
   created () {
     this.getArticle()
-    this.getChannelOption()
   }
 }
 </script>

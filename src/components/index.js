@@ -8,8 +8,10 @@
 //         - 默认的传参  Vue 对象
 //             - 基于 Vue 对象做任何事情
 import MyBread from '@/components/my-bread'
+import MyChannel from '@/components/my-channel'
 export default {
   install (Vue) {
     Vue.component('my-bread', MyBread)
+    Vue.component('my-channel', MyChannel)
   }
 }

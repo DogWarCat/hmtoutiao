@@ -5,36 +5,43 @@ import home from '@/views/home'
 import welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 import article from '@/views/article'
+import image from '@/views/image'
 import local from '@/utils/local'
 import slotTest from '@/components/vue-slot-page'
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routes: [{
-    path: '/login',
-    component: login
-  },
-  {
-    path: '/slotTest',
-    component: slotTest
-  },
-  {
-    path: '/',
-    component: home,
-    children: [{
-      path: '',
-      component: welcome
+  routes: [
+    {
+      path: '/login',
+      component: login
+    },
+    // 插槽测试路径，与项目无关
+    {
+      path: '/slotTest',
+      component: slotTest
     },
     {
-      path: '/article',
-      component: article
+      path: '/',
+      component: home,
+      children: [{
+        path: '',
+        component: welcome
+      },
+      {
+        path: '/article',
+        component: article
+      },
+      {
+        path: '/image',
+        component: image
+      }
+      ]
+    },
+    // 匹配  不符合路由规则的路径
+    {
+      path: '*',
+      component: NotFound
     }
-    ]
-  },
-  // 匹配  不符合路由规则的路径
-  {
-    path: '*',
-    component: NotFound
-  }
   ]
 })
 // 添加路由的导航守卫，前置导航守卫
