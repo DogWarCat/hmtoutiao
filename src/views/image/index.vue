@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <!-- 添加素材弹框 -->
+    <!-- 添加素材弹框（上传） -->
     <el-dialog title="添加素材" :visible.sync="dialogVisible" width="300px" class="imgAlert">
       <el-upload
         class="avatar-uploader"
@@ -98,7 +98,7 @@ export default {
       this.query.page = currentPage
       this.getImage()
     },
-    // 收藏按钮
+    // 顶部收藏按钮
     async collectArticle () {
       this.query.page = 1
       this.getImage()
@@ -147,7 +147,7 @@ export default {
         this.dialogVisible = false
         this.getImage()
         this.imageUrl = null
-      }, 2000)
+      }, 5000)
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
@@ -169,6 +169,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+// 素材列表
 .img_list {
   padding-top: 20px;
   .img_item {
@@ -196,6 +197,7 @@ export default {
     }
   }
 }
+// 上传居中
 .imgAlert {
   text-align: center;
 }

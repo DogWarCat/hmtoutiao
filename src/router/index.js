@@ -6,6 +6,7 @@ import welcome from '@/views/welcome'
 import NotFound from '@/views/404'
 import article from '@/views/article'
 import image from '@/views/image'
+import publish from '@/views/publish'
 import local from '@/utils/local'
 import slotTest from '@/components/vue-slot-page'
 Vue.use(VueRouter)
@@ -34,6 +35,10 @@ const router = new VueRouter({
       {
         path: '/image',
         component: image
+      },
+      {
+        path: '/publish',
+        component: publish
       }
       ]
     },
