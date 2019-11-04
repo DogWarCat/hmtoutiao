@@ -21,7 +21,7 @@
   height: 178px;
   display: block;
 }
-.el-dialog__body {
+.my-image .el-dialog__body {
   padding-bottom: 0;
 }
 .container-publish .ql-editor {
@@ -29,4 +29,7 @@
 }
 .container-publish .ql-toolbar.ql-snow {
   padding: 0px;
+}
+.container-setting .avatar-uploader {
+  text-align: center;
 }

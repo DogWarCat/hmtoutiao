@@ -1,13 +1,13 @@
 <template>
-  <div class="my-bread">
+  <div class="my-image">
     <div class="coverBtn" @click="openDialog">
-      <img :src="changeImage" alt />
+      <img :src="value||changeImage" alt />
     </div>
     <!-- 封面对话框 -->
     <el-dialog :visible.sync="dialogVisible" width="750px">
       <!-- 素材库/上传图片tasgs -->
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="素材库" name="first">
+        <el-tab-pane label="素材库" name="image">
           <!-- 按钮组 -->
           <!-- 按钮单选框 label就是值 -->
           <div>
@@ -43,7 +43,7 @@
             @next-click="page"
           ></el-pagination>
         </el-tab-pane>
-        <el-tab-pane label="上传图片" name="second">
+        <el-tab-pane label="上传图片" name="upload">
           <!-- 添加素材弹框（上传） -->
           <el-upload
             class="avatar-uploader"
@@ -54,7 +54,7 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="uploadImgUrl" :src="uploadImgUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-tab-pane>
@@ -69,24 +69,26 @@
 </template>
 
 <script>
-import imageUrl from '@/assets/default.png'
+import imgUrl from '@/assets/default.png'
 export default {
+  // 封面图片
+  props: ['value'],
   data () {
     return {
       // 对话框是否关闭
       dialogVisible: false,
       //   tags默认选中
-      activeName: 'first',
+      activeName: 'image',
       // 获取用户图片素材接口返回数据
       imagesList: {},
       // 总图片数
       total: 10,
-      // 素材选中属性(用图片的url来标识唯一性)
+      // 素材选中(用图片的url来标识唯一性)
       choseImgUrl: '',
       // 添加素材相关数据
-      imageUrl: '',
+      uploadImgUrl: '',
       // 替换默认图片
-      changeImage: imageUrl,
+      changeImage: imgUrl,
       headers: {
         Authorization:
           'Bearer ' +
@@ -135,14 +137,7 @@ export default {
     },
     // 图片上传
     handleAvatarSuccess (res) {
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      this.imageUrl = res.data.url
-      this.choseImgUrl = this.imageUrl
-      // this.$message.success('上传成功')
-      // window.setTimeout(async () => {
-      //   this.dialogVisible = false
-      //   this.imageUrl = null
-      // }, 5000)
+      this.uploadImgUrl = res.data.url
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
@@ -158,15 +153,33 @@ export default {
     },
     // 点击确定
     submit () {
+      if (this.activeName === 'image') {
+        if (!this.choseImgUrl) {
+          return this.$message.warning('请选择一张图片素材')
+        } else {
+          // this.changeImage = this.choseImgUrl
+          // 将this.choseImgUrl当做value传给父组件，子组件中value有值则显示value（双向绑定的）
+          this.$emit('input', this.choseImgUrl)
+        }
+      } else if (this.activeName === 'upload') {
+        if (!this.uploadImgUrl) {
+          return this.$message.warning('请上传一张素材图片')
+        } else {
+          // this.changeImage = this.uploadImgUrl
+          this.$emit('input', this.uploadImgUrl)
+        }
+      }
       this.dialogVisible = false
-      this.changeImage = this.choseImgUrl
+      this.choseImgUrl = ''
+      this.uploadImgUrl = ''
+      this.choseImgUrl = ''
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.my-bread {
+.my-image {
   display: inline-block;
   margin-right: 10px;
   .coverBtn {
