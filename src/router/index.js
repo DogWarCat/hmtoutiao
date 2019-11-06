@@ -9,6 +9,7 @@ import image from '@/views/image'
 import publish from '@/views/publish'
 import comment from '@/views/comment'
 import setting from '@/views/setting'
+import fans from '@/views/fans'
 import local from '@/utils/local'
 import slotTest from '@/components/vue-slot-page'
 Vue.use(VueRouter)
@@ -49,6 +50,10 @@ const router = new VueRouter({
       {
         path: '/setting',
         component: setting
+      },
+      {
+        path: '/fans',
+        component: fans
       }
       ]
     },

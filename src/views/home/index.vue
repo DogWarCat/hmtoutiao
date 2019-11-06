@@ -77,6 +77,7 @@
 <script>
 import local from '@/utils/local'
 import router from '@/router'
+import eventBus from '@/eventBus'
 export default {
   data () {
     return {
@@ -87,6 +88,9 @@ export default {
   created () {
     this.userInfo = local.getUser() || {}
     // console.log(this.userInfo)
+    // 先绑定后触发，所以绑定写在created里面
+    eventBus.$on('updateName', name => (this.userInfo.name = name))
+    eventBus.$on('updatePhoto', photo => (this.userInfo.photo = photo))
   },
   methods: {
     setting () {
